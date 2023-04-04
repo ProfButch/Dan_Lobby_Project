@@ -1,0 +1,33 @@
+# These are the only two asset folders that should be included.  Left here
+# so you can see what we're trying to do.
+#  Assets/IT4080
+#  Assets/IT4080.meta
+#
+# Couldn't figure out the syntax for ignoring a directory with a space, so I
+# could ignore TextMesh Pro...the internet had the same issue.
+# https://stackoverflow.com/questions/43310179/gitignore-entire-directory-with-whitespace-in-name
+#
+# The rest of the asset folders should be ignored.
+Assets/Editor                   export-ignore
+Assets/Editor.meta              export-ignore
+Assets/Prefabs                  export-ignore
+Assets/Prefabs.meta             export-ignore
+Assets/Scenes                   export-ignore
+Assets/Scenes.meta              export-ignore
+Assets/Scripts                  export-ignore
+Assets/Scripts.meta             export-ignore
+Assets/TestScenes               export-ignore
+Assets/TestScenes.meta          export-ignore
+Assets/DemoObjects              export-ignore
+Assets/DemoObjects.meta         export-ignore
+
+
+# All The other files.
+Assembly-CSharp.csproj          export-ignore
+EmptyUnityProject.sln           export-ignore
+IT4080_Assets.sln               export-ignore
+My project.sln                  export-ignore
+Packages                        export-ignore
+ProjectSettings                 export-ignore
+README.md                       export-ignore
+UserSettings                    export-ignore
