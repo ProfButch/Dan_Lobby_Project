@@ -20,6 +20,7 @@ public class TestLobby : NetworkBehaviour
     {
         initialClear();
         kicktext.gameObject.SetActive(false);
+        btnStart.onClick.AddListener(goToCongrats);
         
     }
 
@@ -51,11 +52,12 @@ public class TestLobby : NetworkBehaviour
         {
             NetworkHandler.Singleton.allPlayers.OnListChanged += ClientOnAllPlayersChanged;
             PopulateConnectedPlayersUsingPlayerDataList(NetworkHandler.Singleton.allPlayers);
-            if (IsHost)
+            if (!IsHost)
             {
                 Debug.Log("Disconnect");
                 NetworkManager.OnClientDisconnectCallback += ClientOnDisconnect;
             }
+            
         }
 
         if (IsServer)
@@ -67,6 +69,11 @@ public class TestLobby : NetworkBehaviour
         }
 
        btnStart.gameObject.SetActive(false);
+    }
+
+   private void goToCongrats()
+    {
+        NetworkManager.SceneManager.LoadScene("Congrats", UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
     
 
@@ -182,6 +189,8 @@ public class TestLobby : NetworkBehaviour
         kicktext.gameObject.SetActive(true);
         connPlayers.gameObject.SetActive(false);
         
+        
+        
     }
 
     private void ClientOnAllPlayersChanged(NetworkListEvent<PlayerData> changeEvent)
@@ -205,7 +214,7 @@ public class TestLobby : NetworkBehaviour
         Debug.Log($"Kicking {clientId}");
         NetworkManager.DisconnectClient(clientId);
        NetworkHandler.Singleton.RemovePlayerFromList(clientId);
-       kicktext.gameObject.SetActive(true);
+   
        Debug.Log("kick image should be up");
     }
     // Update is called once per frame
