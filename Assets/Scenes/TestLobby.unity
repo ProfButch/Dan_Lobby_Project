@@ -1428,6 +1428,7 @@ MonoBehaviour:
   btnStart: {fileID: 258013118}
   connPlayers: {fileID: 273170027}
   kicktext: {fileID: 245388112}
+  initclear: 0
 --- !u!4 &1683676198
 Transform:
   m_ObjectHideFlags: 0

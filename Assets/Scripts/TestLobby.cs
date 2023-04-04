@@ -14,7 +14,8 @@ public class TestLobby : NetworkBehaviour
 {
     public Button btnStart;
     public ConnectedPlayers connPlayers;
-    public Image kicktext; 
+    public Image kicktext;
+    public bool initclear = false; 
     void Start()
     {
         initialClear();
@@ -24,9 +25,24 @@ public class TestLobby : NetworkBehaviour
 
     public void initialClear()
     {
+        if (initclear != true)
+        {
+            connPlayers.Clear();
+            PopulateConnectedPlayersUsingPlayerDataList(NetworkHandler.Singleton.allPlayers);
+            initclear = true;
+        }
+
+    }
+
+    public void clear()
+    {
         connPlayers.Clear();
-        PopulateConnectedPlayersUsingPlayerDataList(NetworkHandler.Singleton.allPlayers);
-        
+
+        var kids = transform.GetComponentsInChildren<PlayerCard>();
+        foreach (PlayerCard kid in kids)
+        {
+            Destroy(kid.gameObject);
+        }
     }
     public override void OnNetworkSpawn()
     {
@@ -114,10 +130,6 @@ public class TestLobby : NetworkBehaviour
         It4080.PlayerData info = NetworkHandler.Singleton.allPlayers[playerIndex];
         info.isReady = isReady;
         NetworkHandler.Singleton.allPlayers[playerIndex] = info;
-        Debug.Log("RPC call to refresh");
-        listRefresh();
-        initialClear();
-        PopulateConnectedPlayersUsingPlayerDataList(NetworkHandler.Singleton.allPlayers);
     }
 
     public bool EnableStartIfAllReady(NetworkList<It4080.PlayerData> players)
@@ -143,6 +155,7 @@ public class TestLobby : NetworkBehaviour
 
     private void PopulateConnectedPlayersUsingPlayerDataList(NetworkList<It4080.PlayerData> players)
     {
+        clear();
         foreach (It4080.PlayerData p in players)
         {
          var card = AddPlayerCard(p.clientId);
@@ -160,7 +173,7 @@ public class TestLobby : NetworkBehaviour
     public void listRefresh()
     {
         Debug.Log("time 2 refesh");
-        initialClear();
+        clear();
         PopulateConnectedPlayersUsingPlayerDataList(NetworkHandler.Singleton.allPlayers);
     }
 
@@ -176,6 +189,7 @@ public class TestLobby : NetworkBehaviour
       PopulateConnectedPlayersUsingPlayerDataList(NetworkHandler.Singleton.allPlayers);
         if (IsHost)
         {
+            Debug.Log("calling all ready");
         EnableStartIfAllReady(NetworkHandler.Singleton.allPlayers);
         }
     }
